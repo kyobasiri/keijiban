@@ -24,9 +24,9 @@ namespace keijibanapi.Repositories
         public async Task<IEnumerable<EmergencyNotice>> GetAllWithDepartmentsAsync()
         {
             const string noticesSql = @"
-                SELECT id, priority, notice_type as NoticeType, notice_content as NoticeContent, is_all_departments,
-                       is_active, created_at as CreatedAt, updated_at as UpdatedAt, created_by_department_id as CreatedByDepartmentId,
-                       target_department_names as TargetDepartmentNames
+                SELECT id, priority, notice_type, notice_content, is_all_departments,
+                       is_active, created_at, updated_at, created_by_department_id,
+                       target_department_names
                 FROM v_emergency_notices_with_departments
                 ORDER BY created_at DESC, is_active DESC LIMIT 30";
 
