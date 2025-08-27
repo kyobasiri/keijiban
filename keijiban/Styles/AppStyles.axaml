@@ -1,0 +1,135 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:keijiban.ViewModels">
+
+  <Styles.Resources>
+    <vm:BoolToWeekendColorConverter x:Key="BoolToWeekendColorConverter"/>
+    <vm:BoolToTodayBackgroundConverter x:Key="BoolToTodayBackgroundConverter"/>
+    <vm:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    <vm:NegateConverter x:Key="NegateConverter"/>
+    <vm:BoolToPlayStateConverter x:Key="BoolToPlayStateConverter"/>
+
+    <Color x:Key="ThemeColorPrimary">#4682B4</Color>
+    <SolidColorBrush x:Key="ThemeBrushPrimary" Color="{StaticResource ThemeColorPrimary}"/>
+
+    <Color x:Key="ThemeColorSecondary">#F9F9F9</Color>
+    <SolidColorBrush x:Key="ThemeBrushSecondary" Color="{StaticResource ThemeColorSecondary}"/>
+
+    <Color x:Key="ThemeColorTextLight">White</Color>
+    <SolidColorBrush x:Key="ThemeBrushTextLight" Color="{StaticResource ThemeColorTextLight}"/>
+
+    <Color x:Key="ThemeColorBorder">#DDDDDD</Color>
+    <SolidColorBrush x:Key="ThemeBrushBorder" Color="{StaticResource ThemeColorBorder}"/>
+
+    <Color x:Key="WeekendColor">#FF6347</Color>
+    <SolidColorBrush x:Key="WeekendBrush" Color="{StaticResource WeekendColor}"/>
+
+    <Color x:Key="TodayBackgroundColor">#FF8C00</Color>
+    <SolidColorBrush x:Key="TodayBackgroundBrush" Color="{StaticResource TodayBackgroundColor}"/>
+  </Styles.Resources>
+
+  <Style Selector="Window, UserControl">
+    <Setter Property="FontFamily" Value="Meiryo UI, Segoe UI, sans-serif"/>
+  </Style>
+
+  <Style Selector="TextBlock.HeaderTitle">
+    <Setter Property="FontSize" Value="24"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="Foreground" Value="{StaticResource ThemeBrushPrimary}"/>
+  </Style>
+
+  <Style Selector="Border.DateBox">
+    <Setter Property="BorderBrush" Value="{StaticResource ThemeBrushPrimary}"/>
+    <Setter Property="BorderThickness" Value="2"/>
+    <Setter Property="CornerRadius" Value="5"/>
+    <Setter Property="Background" Value="White"/>
+    <Setter Property="Padding" Value="6,8"/>
+    <Setter Property="MinWidth" Value="160"/>
+  </Style>
+
+  <Style Selector="Panel.PanelHeader">
+    <Setter Property="Background" Value="{StaticResource ThemeBrushPrimary}"/>
+    <Setter Property="Height" Value="35"/>
+  </Style>
+
+  <Style Selector="TextBlock.PanelHeaderText">
+    <Setter Property="Foreground" Value="{StaticResource ThemeBrushTextLight}"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="FontSize" Value="15"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="Margin" Value="10,0"/>
+  </Style>
+
+  <Style Selector="ComboBox.SelectorComboBox">
+    <Setter Property="MinWidth" Value="140"/>
+    <Setter Property="Height" Value="28"/>
+    <Setter Property="Padding" Value="4,6"/>
+    <Setter Property="FontSize" Value="12"/>
+  </Style>
+
+  <Style Selector="Grid.three-columns > Border">
+    <Setter Property="Margin" Value="3"/>
+  </Style>
+
+  <Style Selector="Border.ScheduleItem">
+    <Setter Property="Background" Value="{StaticResource ThemeBrushSecondary}"/>
+    <Setter Property="BorderBrush" Value="{StaticResource ThemeBrushPrimary}"/>
+    <Setter Property="BorderThickness" Value="3,0,0,0"/>
+    <Setter Property="CornerRadius" Value="3"/>
+    <Setter Property="Padding" Value="3"/>
+    <Setter Property="Margin" Value="0,0,0,2"/>
+  </Style>
+
+  <Style Selector="Border.InfoItem">
+    <Setter Property="BorderBrush" Value="{StaticResource ThemeBrushBorder}"/>
+    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    <Setter Property="Padding" Value="0,4"/>
+    <Setter Property="Margin" Value="0,0,0,4"/>
+  </Style>
+
+  <Style Selector="Border.MessageItem">
+    <Setter Property="Background" Value="{StaticResource ThemeBrushSecondary}"/>
+    <Setter Property="BorderThickness" Value="3,0,0,0"/>
+    <Setter Property="CornerRadius" Value="3"/>
+    <Setter Property="Padding" Value="8,6"/>
+    <Setter Property="Margin" Value="0,0,0,3"/>
+    <Setter Property="Cursor" Value="Hand"/>
+  </Style>
+
+  <Style Selector="Border.MessageItem:pointerover">
+    <Setter Property="Background" Value="#F0F8FF"/>
+  </Style>
+
+  <Style Selector="Border.MessageItem.Unread">
+    <Setter Property="Background" Value="#FFF8DC"/>
+    <Setter Property="BorderBrush" Value="#FF6347"/>
+  </Style>
+
+  <Style Selector="Border.DateBadge">
+    <Setter Property="CornerRadius" Value="3"/>
+    <Setter Property="Padding" Value="4,2"/>
+    <Setter Property="Margin" Value="0,0,6,0"/>
+  </Style>
+
+  <Style Selector="Border.DateBadge.Today">
+    <Setter Property="Background" Value="{StaticResource TodayBackgroundBrush}"/>
+  </Style>
+
+  <Style Selector="Border.DateBadge.Normal">
+    <Setter Property="Background" Value="{StaticResource ThemeBrushPrimary}"/>
+  </Style>
+
+  <Style Selector="Border.PriorityBadge">
+    <Setter Property="CornerRadius" Value="3"/>
+    <Setter Property="Padding" Value="3,1"/>
+    <Setter Property="Margin" Value="0,0,6,0"/>
+  </Style>
+
+  <Style Selector="Border.DueBadge">
+    <Setter Property="Background" Value="#FFC107"/>
+    <Setter Property="CornerRadius" Value="3"/>
+    <Setter Property="Padding" Value="3,1"/>
+    <Setter Property="Margin" Value="0,0,6,0"/>
+  </Style>
+
+</Styles>

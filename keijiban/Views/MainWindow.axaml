@@ -1,0 +1,328 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:keijiban.ViewModels"
+        xmlns:models="using:keijiban.ViewModels.Models"
+        mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+        x:Class="keijiban.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="病院内掲示板システム"
+        WindowState="FullScreen"
+        WindowStartupLocation="CenterScreen">
+
+  <Design.DataContext>
+    <vm:MainViewModel/>
+  </Design.DataContext>
+
+  <Grid RowDefinitions="Auto,*,Auto">
+    <Border Grid.Row="0" Background="{Binding HeaderBackgroundColor}" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" MinHeight="70">
+      <Grid>
+        <Canvas Name="MarqueeCanvas" ClipToBounds="True" IsVisible="{Binding IsEmergencyActive}">
+          <TextBlock Name="MarqueeText"
+                     Text="{Binding EmergencyMarqueeText}"
+                     FontSize="52"
+                     FontWeight="Bold"
+                     Foreground="Red"
+                     VerticalAlignment="Center"
+                     Canvas.Top="5">
+            <TextBlock.RenderTransform>
+              <TranslateTransform />
+            </TextBlock.RenderTransform>
+          </TextBlock>
+        </Canvas>
+
+        <Grid Margin="8" ColumnDefinitions="Auto,*" IsVisible="{Binding !IsEmergencyActive}">
+          <Border Grid.Column="0" Classes="DateBox">
+            <StackPanel>
+              <TextBlock Text="{Binding CurrentYear}" FontSize="12" Foreground="#666666" HorizontalAlignment="Center"/>
+              <TextBlock Text="{Binding CurrentDate}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,2"/>
+              <TextBlock Text="{Binding CurrentTime}" FontSize="14" Foreground="{StaticResource ThemeBrushPrimary}" HorizontalAlignment="Center"/>
+            </StackPanel>
+          </Border>
+          <TextBlock Grid.Column="1" Classes="HeaderTitle" Text="病院内掲示板システム" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1" Margin="8,10,8,0">
+      <Grid RowDefinitions="6*,4*">
+        <Border Grid.Row="0" Background="White" CornerRadius="5" Margin="0,0,0,8">
+          <Border.Effect>
+            <DropShadowEffect BlurRadius="5" Color="#000000" Opacity="0.1"/>
+          </Border.Effect>
+          <Grid RowDefinitions="Auto,Auto,*,*,*">
+            <Panel Classes="PanelHeader" Grid.Row="0">
+              <TextBlock Classes="PanelHeaderText" Text="週間スケジュール"/>
+            </Panel>
+
+            <Grid Grid.Row="1" ColumnDefinitions="120,*" Margin="0,1">
+              <Border Grid.Column="0" Background="#F0F0F0" BorderBrush="{StaticResource ThemeBrushBorder}" BorderThickness="1" Padding="6,3"/>
+              <ItemsControl Grid.Column="1" ItemsSource="{Binding DateHeaders}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <UniformGrid Rows="1"/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="models:DateHeader">
+                    <Border BorderBrush="{StaticResource ThemeBrushBorder}" BorderThickness="1" Padding="2">
+                      <TextBlock Text="{Binding Header}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 Foreground="{Binding IsWeekend, Converter={StaticResource BoolToWeekendColorConverter}}"/>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Grid>
+
+            <Grid Grid.Row="2" ColumnDefinitions="120,*" Margin="0,1">
+              <Border Grid.Column="0" Background="#F8F8F8" BorderBrush="{StaticResource ThemeBrushBorder}" BorderThickness="1" Padding="6,3">
+                <TextBlock Text="{Binding SelectedScheduleGroup.Name}" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              </Border>
+              <ItemsControl Grid.Column="1" ItemsSource="{Binding ExternalScheduleRow1}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <UniformGrid Rows="1"/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="models:ScheduleColumn">
+                    <Border BorderBrush="{StaticResource ThemeBrushBorder}" BorderThickness="1" MinHeight="50" Padding="2">
+                      <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ScheduleItems}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="models:ScheduleItem">
+                              <Border Classes="ScheduleItem">
+                                <StackPanel>
+                                  <TextBlock Text="{Binding Time}" FontWeight="Bold" Foreground="{StaticResource ThemeBrushPrimary}" FontSize="15" Margin="0,0,0,1" IsVisible="{Binding Time, Converter={StaticResource StringToVisibilityConverter}}"/>
+                                  <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,1"/>
+                                </StackPanel>
+                              </Border>
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </ScrollViewer>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Grid>
+
+            <Grid Grid.Row="3" ColumnDefinitions="120,*" Margin="0,1">
+              <Border Grid.Column="0" Background="#F8F8F8" BorderBrush="{StaticResource ThemeBrushBorder}" BorderThickness="1" Padding="6,3">
+                <TextBlock Text="{Binding SelectedDepartment.Name}" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              </Border>
+              <ItemsControl Grid.Column="1" ItemsSource="{Binding ExternalScheduleRow2}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <UniformGrid Rows="1"/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="models:ScheduleColumn">
+                    <Border BorderBrush="{StaticResource ThemeBrushBorder}" BorderThickness="1" MinHeight="50" Padding="2">
+                      <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ScheduleItems}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="models:ScheduleItem">
+                              <Border Classes="ScheduleItem" BorderBrush="#28a745">
+                                <StackPanel>
+                                  <TextBlock Text="{Binding Time}" FontWeight="Bold" Foreground="#28a745" FontSize="15" Margin="0,0,0,1" IsVisible="{Binding Time, Converter={StaticResource StringToVisibilityConverter}}"/>
+                                  <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold" TextWrapping="Wrap" Margin="0,0,0,1"/>
+                                </StackPanel>
+                              </Border>
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </ScrollViewer>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Grid>
+
+            <Grid Grid.Row="4" ColumnDefinitions="120,*" Margin="0,1">
+              <Border Grid.Column="0" Background="#F8F8F8" BorderBrush="{StaticResource ThemeBrushBorder}" BorderThickness="1" Padding="6,3">
+                <TextBlock Text="Dr.不在予定" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+              </Border>
+              <ItemsControl Grid.Column="1" ItemsSource="{Binding No3ScheduleRow}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <UniformGrid Rows="1"/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="models:ScheduleColumn">
+                    <Border BorderBrush="{StaticResource ThemeBrushBorder}" BorderThickness="1" MinHeight="50" Padding="2">
+                      <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding ScheduleItems}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="models:ScheduleItem">
+                              <Border Classes="ScheduleItem" BorderBrush="#dc3545">
+                                <StackPanel>
+                                  <TextBlock Text="{Binding Time}" FontWeight="Bold" Foreground="#dc3545" FontSize="15" Margin="0,0,0,1" IsVisible="{Binding Time, Converter={StaticResource StringToVisibilityConverter}}"/>
+                                  <TextBlock Text="{Binding Title}" FontSize="25" TextWrapping="Wrap" Margin="0,0,0,1"/>
+                                </StackPanel>
+                              </Border>
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                      </ScrollViewer>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Grid>
+          </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" Classes="three-columns">
+          <Border Grid.Column="0" Background="White" CornerRadius="5">
+            <Border.Effect>
+              <DropShadowEffect BlurRadius="5" Color="#000000" Opacity="0.1"/>
+            </Border.Effect>
+            <Grid RowDefinitions="Auto,*">
+              <Panel Classes="PanelHeader" Grid.Row="0">
+                <TextBlock Classes="PanelHeaderText" Text="インフォメーション"/>
+              </Panel>
+              <ScrollViewer Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding InformationList}" Margin="4">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:InformationItem">
+                      <Border Classes="InfoItem">
+                        <StackPanel Orientation="Horizontal">
+                          <Border Classes="DateBadge" Classes.Today="{Binding IsToday}" Classes.Normal="{Binding !IsToday}">
+                            <TextBlock Text="{Binding DateDisplay}" Foreground="White" FontSize="15"/>
+                          </Border>
+                          <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="20" VerticalAlignment="Center"/>
+                        </StackPanel>
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+            </Grid>
+          </Border>
+
+          <Border Grid.Column="1" Background="White" CornerRadius="5">
+            <Border.Effect>
+              <DropShadowEffect BlurRadius="5" Color="#000000" Opacity="0.1"/>
+            </Border.Effect>
+            <Grid RowDefinitions="Auto,*">
+              <Panel Classes="PanelHeader" Grid.Row="0">
+                <TextBlock Classes="PanelHeaderText" Text="部署間連絡（自部署送信）"/>
+              </Panel>
+              <ScrollViewer Grid.Row="1" Margin="0,2,0,0">
+                <ItemsControl ItemsSource="{Binding SentMessagesList}" Margin="6,0">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:MessageDisplayItem">
+                      <Border Classes="MessageItem" BorderBrush="#28a745">
+                        <Grid RowDefinitions="Auto,Auto">
+                          <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,2">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                              <Border Classes="DateBadge Normal">
+                                <TextBlock Text="{Binding DateDisplay}" Foreground="White" FontSize="10"/>
+                              </Border>
+                              <TextBlock Text="{Binding PriorityIcon}" FontSize="13" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                              <TextBlock Text="→" Foreground="#666666" FontSize="11" Margin="0,0,3,0" VerticalAlignment="Center"/>
+                              <TextBlock Text="{Binding ToDeptName}" Foreground="#666666" FontSize="11" VerticalAlignment="Center"/>
+                              <Border Classes="DueBadge" IsVisible="{Binding HasDueDate}" Margin="8,0,0,0">
+                                <TextBlock Text="{Binding DueDateDisplay}" Foreground="White" FontSize="9"/>
+                              </Border>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1" Text="{Binding StatusDisplay}" FontSize="10" VerticalAlignment="Center" Foreground="{Binding StatusColor}" FontWeight="Bold"/>
+                          </Grid>
+                          <TextBlock Grid.Row="1" Text="{Binding Subject}" FontSize="20" FontWeight="Bold" TextWrapping="Wrap" MaxLines="2"/>
+                        </Grid>
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+            </Grid>
+          </Border>
+
+          <Border Grid.Column="2" Background="White" CornerRadius="5">
+            <Border.Effect>
+              <DropShadowEffect BlurRadius="5" Color="#000000" Opacity="0.1"/>
+            </Border.Effect>
+            <Grid RowDefinitions="Auto,*">
+              <Panel Classes="PanelHeader" Grid.Row="0">
+                <TextBlock Classes="PanelHeaderText" Text="部署間連絡（受信）"/>
+              </Panel>
+              <ScrollViewer Grid.Row="1" Margin="0,2,0,0">
+                <ItemsControl ItemsSource="{Binding ReceivedMessagesList}" Margin="6,0">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:MessageDisplayItem">
+                      <Border Classes="MessageItem" Classes.Unread="{Binding !IsRead}" BorderBrush="{StaticResource ThemeBrushPrimary}">
+                        <Grid RowDefinitions="Auto,Auto">
+                          <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,2">
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                              <Border Classes="DateBadge Normal">
+                                <TextBlock Text="{Binding DateDisplay}" Foreground="White" FontSize="10"/>
+                              </Border>
+                              <TextBlock Text="{Binding PriorityIcon}" FontSize="13" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                              <TextBlock Text="{Binding FromDeptName}" Foreground="#666666" FontSize="11" VerticalAlignment="Center"/>
+                              <Border Classes="DueBadge" IsVisible="{Binding HasDueDate}" Margin="8,0,0,0">
+                                <TextBlock Text="{Binding DueDateDisplay}" Foreground="White" FontSize="9"/>
+                              </Border>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1" Text="{Binding StatusDisplay}" FontSize="10" VerticalAlignment="Center" Foreground="{Binding StatusColor}" FontWeight="Bold"/>
+                          </Grid>
+                          <TextBlock Grid.Row="1" Text="{Binding Subject}" FontSize="20" FontWeight="Bold" TextWrapping="Wrap" MaxLines="2"/>
+                        </Grid>
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+            </Grid>
+          </Border>
+        </Grid>
+      </Grid>
+    </Grid>
+
+    <Border Grid.Row="2" Background="#333333" Padding="10,6">
+      <Grid ColumnDefinitions="*,Auto,*">
+        <TextBlock Grid.Column="0" Text="© 2025 病院内掲示板システム" Foreground="White" FontSize="12" VerticalAlignment="Center"/>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock Text="スケジュールグループ:" Foreground="White" VerticalAlignment="Center" FontSize="11"/>
+            <ComboBox ItemsSource="{Binding ScheduleGroups}" SelectedItem="{Binding SelectedScheduleGroup}" Classes="SelectorComboBox" Width="150">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock Text="選択情報:" Foreground="White" VerticalAlignment="Center" FontSize="11"/>
+            <ComboBox ItemsSource="{Binding InfoTypes}" SelectedItem="{Binding SelectedInfoType}" Classes="SelectorComboBox" Width="120">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock Text="表示部署:" Foreground="White" VerticalAlignment="Center" FontSize="11"/>
+            <ComboBox ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}" Classes="SelectorComboBox" Width="150">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+          <TextBlock Text="{Binding LastSyncTime}" Foreground="#AAAAAA" FontSize="12" VerticalAlignment="Center"/>
+          <Button Content="更新" Command="{Binding RefreshAllDataCommand}" IsVisible="{Binding !IsLoading}"/>
+          <ProgressBar IsIndeterminate="True" Width="100" IsVisible="{Binding IsLoading}" VerticalAlignment="Center"/>
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Grid>
+</Window>
