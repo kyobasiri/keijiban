@@ -13,6 +13,9 @@ using keijibanapi.Services;
 using keijibanapi.Validators;
 
 
+// Dapperでsnake_caseとPascalCaseを自動マッピングする設定
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
 SqlMapper.AddTypeHandler(new StringTypeHandler<EmergencyPriority>());
 SqlMapper.AddTypeHandler(new StringTypeHandler<Priority>());
 SqlMapper.AddTypeHandler(new StringTypeHandler<ActionStatus>());
