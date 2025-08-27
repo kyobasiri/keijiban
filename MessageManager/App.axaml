@@ -1,0 +1,11 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MessageManager.App"
+             RequestedThemeVariant="Default">
+  <!-- "Default" allows the user to change theme using the OS setting. -->
+
+  <Application.Styles>
+    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    <FluentTheme />
+  </Application.Styles>
+</Application>

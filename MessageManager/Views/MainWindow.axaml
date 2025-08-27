@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MessageManager.ViewModels"
+        xmlns:views="clr-namespace:MessageManager.Views"
+        x:Class="MessageManager.Views.MainWindow"
+        Title="部署間連絡管理システム"
+        Width="1600" Height="900"
+        WindowStartupLocation="CenterScreen"
+        x:DataType="vm:MainViewModel">
+
+  <Grid RowDefinitions="Auto,*">
+    <Border Grid.Row="0" Background="#4682B4" Padding="15,10">
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <TextBlock Text="部署間連絡管理システム" FontSize="18" FontWeight="Bold" Foreground="White"/>
+        <ComboBox ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}" Margin="30,0,0,0">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:DepartmentViewModel">
+              <TextBlock Text="{Binding Name}"/>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+      </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="1" RowDefinitions="Auto,*" Margin="10">
+      <views:NewMessageView Grid.Row="0" DataContext="{Binding NewMessageVM}"/>
+
+      <Grid Grid.Row="1" ColumnDefinitions="3*,2*">
+        <views:MessageListView Grid.Column="0" DataContext="{Binding MessageListVM}"/>
+
+        <ContentControl Grid.Column="1" Content="{Binding SelectedMessage}">
+          <ContentControl.ContentTemplate>
+            <DataTemplate>
+              <views:MessageDetailView />
+            </DataTemplate>
+          </ContentControl.ContentTemplate>
+        </ContentControl>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>

@@ -1,0 +1,183 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MessageManager.ViewModels"
+        x:Class="MessageManager.Views.TopWindow"
+        x:DataType="vm:TopViewModel"
+        Title="病院管理システム - トップページ"
+        Width="1200" Height="600"
+        WindowStartupLocation="CenterScreen">
+
+  <Design.DataContext>
+    <vm:TopViewModel/>
+  </Design.DataContext>
+
+  <Window.Styles>
+    <!-- メインコンテナ -->
+    <Style Selector="Border.MainContainer">
+      <Setter Property="Background" Value="#F8F9FA"/>
+      <Setter Property="Padding" Value="40"/>
+    </Style>
+
+    <!-- ヘッダー -->
+    <Style Selector="Border.Header">
+      <Setter Property="Background" Value="#4682B4"/>
+      <Setter Property="CornerRadius" Value="8"/>
+      <Setter Property="Padding" Value="30,20"/>
+      <Setter Property="Margin" Value="0,0,0,40"/>
+      <Setter Property="BoxShadow" Value="0 4 8 #19000000"/>
+    </Style>
+
+    <Style Selector="TextBlock.HeaderTitle">
+      <Setter Property="FontSize" Value="32"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <Style Selector="TextBlock.HeaderSubtitle">
+      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="Foreground" Value="#E8F4FD"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="Margin" Value="0,8,0,0"/>
+    </Style>
+
+    <!-- メニューカード -->
+    <Style Selector="Border.MenuCard">
+      <Setter Property="Background" Value="White"/>
+      <Setter Property="CornerRadius" Value="12"/>
+      <Setter Property="Padding" Value="30"/>
+      <Setter Property="Margin" Value="15"/>
+      <Setter Property="BoxShadow" Value="0 4 8 #19000000"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="MinHeight" Value="180"/>
+    </Style>
+
+    <Style Selector="Border.MenuCard:pointerover">
+      <Setter Property="BoxShadow" Value="0 4 20 #26000000"/>
+      <Setter Property="Background" Value="#FAFBFC"/>
+    </Style>
+
+    <!-- アイコン -->
+    <Style Selector="TextBlock.MenuIcon">
+      <Setter Property="FontSize" Value="48"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="Margin" Value="0,0,0,15"/>
+    </Style>
+
+    <!-- メニュータイトル -->
+    <Style Selector="TextBlock.MenuTitle">
+      <Setter Property="FontSize" Value="20"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Foreground" Value="#2C3E50"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="Margin" Value="0,0,0,8"/>
+    </Style>
+
+    <!-- メニュー説明 -->
+    <Style Selector="TextBlock.MenuDescription">
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="Foreground" Value="#7F8C8D"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
+      <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <!-- フッター -->
+    <Style Selector="Border.Footer">
+      <Setter Property="Background" Value="#34495E"/>
+      <Setter Property="CornerRadius" Value="8"/>
+      <Setter Property="Padding" Value="20"/>
+      <Setter Property="Margin" Value="0,40,0,0"/>
+    </Style>
+
+    <Style Selector="TextBlock.FooterText">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Foreground" Value="#BDC3C7"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+  </Window.Styles>
+
+  <Border Classes="MainContainer">
+    <Grid RowDefinitions="Auto,*,Auto">
+
+      <!-- ヘッダー -->
+      <Border Grid.Row="0" Classes="Header">
+        <StackPanel>
+          <TextBlock Classes="HeaderTitle" Text="病院管理システム"/>
+          <TextBlock Classes="HeaderSubtitle" Text="Hospital Management System"/>
+        </StackPanel>
+      </Border>
+
+      <!-- メインメニュー -->
+      <Grid Grid.Row="1" ColumnDefinitions="1*,1*,1*" MaxWidth="1200">
+
+        <!-- メッセージ管理カード -->
+        <Border Grid.Column="0" Classes="MenuCard">
+          <StackPanel>
+            <TextBlock Classes="MenuIcon" Text="📧"/>
+            <TextBlock Classes="MenuTitle" Text="メッセージ管理"/>
+            <TextBlock Classes="MenuDescription"
+                       Text="部署間の連絡や通達を管理します。メッセージの送受信、既読管理、対応状況の確認ができます。"/>
+            <Button Content="メッセージ管理を開く"
+                    Command="{Binding OpenMessageManagerCommand}"
+                    HorizontalAlignment="Center"
+                    Margin="0,15,0,0"
+                    Padding="15,8"
+                    Background="#3498DB"
+                    Foreground="White"
+                    BorderThickness="0"
+                    CornerRadius="6"
+                    FontWeight="Bold"/>
+          </StackPanel>
+        </Border>
+
+        <!-- 緊急連絡事項管理カード -->
+        <Border Grid.Column="1" Classes="MenuCard">
+          <StackPanel>
+            <TextBlock Classes="MenuIcon" Text="🚨"/>
+            <TextBlock Classes="MenuTitle" Text="緊急連絡事項管理"/>
+            <TextBlock Classes="MenuDescription"
+                       Text="緊急連絡事項を管理します。C対応、設備点検、緊急連絡等の登録・編集・削除ができます。"/>
+            <Button Content="緊急連絡事項管理を開く"
+                    Command="{Binding OpenEmergencyNoticeCommand}"
+                    HorizontalAlignment="Center"
+                    Margin="0,15,0,0"
+                    Padding="15,8"
+                    Background="#E74C3C"
+                    Foreground="White"
+                    BorderThickness="0"
+                    CornerRadius="6"
+                    FontWeight="Bold"/>
+          </StackPanel>
+        </Border>
+
+        <!-- 部署メンテナンスカード -->
+        <Border Grid.Column="2" Classes="MenuCard">
+          <StackPanel>
+            <TextBlock Classes="MenuIcon" Text="🏢"/>
+            <TextBlock Classes="MenuTitle" Text="部署メンテナンス"/>
+            <TextBlock Classes="MenuDescription"
+                       Text="部署マスタの管理を行います。別システムからの部署情報取込、部署情報の編集ができます。"/>
+            <Button Content="部署メンテナンスを開く"
+                    Command="{Binding OpenDepartmentMaintenanceCommand}"
+                    HorizontalAlignment="Center"
+                    Margin="0,15,0,0"
+                    Padding="15,8"
+                    Background="#27AE60"
+                    Foreground="White"
+                    BorderThickness="0"
+                    CornerRadius="6"
+                    FontWeight="Bold"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+
+      <!-- フッター -->
+      <Border Grid.Row="2" Classes="Footer">
+        <TextBlock Classes="FooterText" Text="© 2025 Hospital Management System. Version 1.0"/>
+      </Border>
+    </Grid>
+  </Border>
+</Window>

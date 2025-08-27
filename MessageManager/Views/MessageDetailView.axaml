@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MessageManager.ViewModels"
+             xmlns:models="clr-namespace:MessageManager.Models"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="600"
+             x:Class="MessageManager.Views.MessageDetailView"
+             x:DataType="vm:MessageDetailViewModel">
+  <Border Background="White" BorderBrush="#DDDDDD" BorderThickness="1"
+          CornerRadius="4" Padding="15" Margin="5,0,0,0">
+    <Grid RowDefinitions="Auto,*,Auto">
+      <Border Grid.Row="0" Background="#4682B4" CornerRadius="3" Padding="8,4" HorizontalAlignment="Left" Margin="0,0,0,10">
+        <TextBlock Text="メッセージ詳細" FontWeight="Bold" FontSize="16" Foreground="White"/>
+      </Border>
+
+      <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+          <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="0,0,0,15">
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="件名：" FontWeight="Bold" Margin="0,0,10,4"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Subject}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="送信元：" FontWeight="Bold" Margin="0,0,10,4"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding FromDeptName}" Margin="0,0,0,4"/>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="優先度：" FontWeight="Bold" Margin="0,0,10,4"/>
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,4">
+              <TextBlock Text="{Binding PriorityIcon}" FontSize="14" Margin="0,0,4,0"/>
+              <TextBlock Text="{Binding PriorityDisplay}"/>
+            </StackPanel>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="送信日時：" FontWeight="Bold" Margin="0,0,10,4"/>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DateDisplay}" Margin="0,0,0,4"/>
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="回答期限：" FontWeight="Bold" Margin="0,0,10,4" IsVisible="{Binding HasDueDate}"/>
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding DueDateDisplay}" Margin="0,0,0,4" IsVisible="{Binding HasDueDate}"/>
+          </Grid>
+
+          <TextBlock Text="本文：" FontWeight="Bold" Margin="0,0,0,8"/>
+          <Border Background="#F8F9FA" BorderBrush="#DDDDDD" BorderThickness="1"
+                  CornerRadius="4" Padding="12" Margin="0,0,0,15">
+            <TextBlock Text="{Binding Content}" TextWrapping="Wrap"/>
+          </Border>
+
+          <TextBlock Text="受信者一覧：" FontWeight="Bold" Margin="0,0,0,8"/>
+          <ItemsControl ItemsSource="{Binding MessageRecipients}" Margin="0,0,0,15">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="models:MessageRecipientItem">
+                <Border Background="White" BorderBrush="#DDDDDD" BorderThickness="1"
+                        CornerRadius="4" Padding="8" Margin="0,0,0,4">
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Grid.Column="0" Text="{Binding DeptName}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding ReadDisplay}" FontSize="11" Foreground="#666666"/>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </ScrollViewer>
+
+      <StackPanel Grid.Row="2">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10">
+          <Button Content="返信" Margin="0,0,5,0"
+                  Command="{Binding ReplyToSenderCommand}"/>
+          <Button Content="全員に返信" Margin="0,0,5,0"
+                  Command="{Binding ReplyToAllCommand}"/>
+          <Button Content="コピーして新規作成"
+                  Command="{Binding CopyMessageCommand}"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                    IsVisible="{Binding IsActionPanelVisible}">
+            <Button Content="対応中" Margin="0,0,5,0"
+                    Command="{Binding UpdateActionStatusCommand}"
+                    CommandParameter="InProgress"/>
+            <Button Content="完了" Margin="0,0,5,0"
+                    Command="{Binding UpdateActionStatusCommand}"
+                    CommandParameter="Completed"/>
+            <Button Content="却下"
+                    Command="{Binding UpdateActionStatusCommand}"
+                    CommandParameter="Rejected"/>
+        </StackPanel>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

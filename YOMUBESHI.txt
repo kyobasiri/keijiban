@@ -1,0 +1,11 @@
+// YOMUBESHI.txt: このリポジトリはCI/CD構成済みテンプレートです。
+// - Jenkins + Gitea + Nexusによる自動ビルドとNuGetキャッシュ運用を行います。
+// - .NET 6.0 を前提とし、NuGetパッケージは Nexus にキャッシュ永続化されます。
+// - ローカル開発環境にも同一の NuGet.Config を配置しないとキャッシュが活用されません。
+// - BlazorWASM と Avalonia（WinExe）は両方対応しており、複数csprojの同時ビルドにも対応します。
+// - 出力物は以下を生成します：
+//     - framework-dependent（ランタイム非包括）
+//     - self-contained（ランタイム包括）
+//     - self-contained + trimming + ReadyToRun（ファイルサイズ最小化）
+// - 新しいgitリポジトリは/root/create-app-from-templ newappname で作成してください
+// - Jenkinsfileにすべての処理を記述しており、ロジックを追うことで構成を理解しやすくなっています。

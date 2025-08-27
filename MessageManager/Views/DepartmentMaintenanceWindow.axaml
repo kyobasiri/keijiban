@@ -1,0 +1,263 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MessageManager.ViewModels"
+        xmlns:i="using:Avalonia.Xaml.Interactivity"
+        xmlns:core="using:Avalonia.Xaml.Interactions.Core"
+        xmlns:localBehaviors="using:MessageManager.Behaviors"
+        x:Class="MessageManager.Views.DepartmentMaintenanceWindow"
+        x:DataType="vm:DepartmentMaintenanceViewModel"
+        Title="部署メンテナンス"
+        Width="1400" Height="900"
+        WindowStartupLocation="CenterScreen">
+  
+  <Design.DataContext>
+    <vm:DepartmentMaintenanceViewModel/>
+  </Design.DataContext>
+
+  <Window.Styles>
+    <!-- ヘッダースタイル -->
+    <Style Selector="Border.Header">
+      <Setter Property="Background" Value="#4682B4"/>
+      <Setter Property="Padding" Value="15,10"/>
+    </Style>
+
+    <Style Selector="TextBlock.HeaderTitle">
+      <Setter Property="FontSize" Value="20"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+    <!-- ツールバースタイル -->
+    <Style Selector="Border.Toolbar">
+      <Setter Property="Background" Value="#E8F4FD"/>
+      <Setter Property="BorderBrush" Value="#4682B4"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="Padding" Value="15,10"/>
+    </Style>
+
+    <!-- ボタンスタイル -->
+    <Style Selector="Button.ToolbarButton">
+      <Setter Property="Background" Value="#007bff"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="CornerRadius" Value="4"/>
+      <Setter Property="Padding" Value="12,8"/>
+      <Setter Property="Margin" Value="0,0,8,0"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style Selector="Button.ToolbarButton:pointerover">
+      <Setter Property="Background" Value="#0056b3"/>
+    </Style>
+
+    <Style Selector="Button.SaveAllButton">
+      <Setter Property="Background" Value="#ff6b35"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="CornerRadius" Value="4"/>
+      <Setter Property="Padding" Value="12,8"/>
+      <Setter Property="Margin" Value="0,0,8,0"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style Selector="Button.SaveAllButton:pointerover">
+      <Setter Property="Background" Value="#e55a2b"/>
+    </Style>
+
+    <Style Selector="Button.SaveAllButton:disabled">
+      <Setter Property="Background" Value="#6c757d"/>
+      <Setter Property="Opacity" Value="0.6"/>
+    </Style>
+
+    <Style Selector="Button.CloseButton">
+      <Setter Property="Background" Value="#6c757d"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="CornerRadius" Value="4"/>
+      <Setter Property="Padding" Value="12,8"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style Selector="Button.CloseButton:pointerover">
+      <Setter Property="Background" Value="#5a6268"/>
+    </Style>
+
+    <!-- DataGridスタイル -->
+    <Style Selector="DataGrid">
+      <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+      <Setter Property="HeadersVisibility" Value="Column"/>
+      <Setter Property="CanUserReorderColumns" Value="False"/>
+      <Setter Property="CanUserResizeColumns" Value="True"/>
+      <Setter Property="CanUserSortColumns" Value="False"/>
+      <Setter Property="SelectionMode" Value="Single"/>
+      <Setter Property="IsReadOnly" Value="False"/>
+      <Setter Property="RowHeight" Value="35"/>
+      <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style Selector="DataGrid DataGridColumnHeader">
+      <Setter Property="Background" Value="#f8f9fa"/>
+      <Setter Property="Foreground" Value="#495057"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Padding" Value="8,5"/>
+      <Setter Property="BorderBrush" Value="#dee2e6"/>
+      <Setter Property="BorderThickness" Value="0,0,1,1"/>
+    </Style>
+
+    <Style Selector="DataGrid DataGridRow">
+      <Setter Property="Background" Value="White"/>
+    </Style>
+
+    <Style Selector="DataGrid DataGridRow:nth-child(even)">
+      <Setter Property="Background" Value="#f8f9fa"/>
+    </Style>
+
+    <Style Selector="DataGrid DataGridRow:pointerover">
+      <Setter Property="Background" Value="#e3f2fd"/>
+    </Style>
+
+    <Style Selector="DataGrid DataGridRow.HasChanges">
+      <Setter Property="Background" Value="#fff3cd"/>
+    </Style>
+
+    <Style Selector="DataGrid DataGridCell">
+      <Setter Property="Padding" Value="8,5"/>
+      <Setter Property="BorderBrush" Value="#dee2e6"/>
+      <Setter Property="BorderThickness" Value="0,0,1,0"/>
+    </Style>
+
+    <!-- 入力フィールドスタイル -->
+    <Style Selector="TextBox.CellEditor">
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="4"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style Selector="TextBox.CellEditor:focus">
+      <Setter Property="Background" Value="White"/>
+      <Setter Property="BorderBrush" Value="#4682B4"/>
+      <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <!-- ComboBoxスタイル -->
+    <Style Selector="ComboBox.CellEditor">
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="4"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style Selector="ComboBox.CellEditor:focus">
+      <Setter Property="Background" Value="White"/>
+      <Setter Property="BorderBrush" Value="#4682B4"/>
+      <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <!-- 変更インジケーター -->
+    <Style Selector="Border.ChangeIndicator">
+      <Setter Property="Background" Value="#ff6b35"/>
+      <Setter Property="CornerRadius" Value="8"/>
+      <Setter Property="Width" Value="16"/>
+      <Setter Property="Height" Value="16"/>
+    </Style>
+
+    <!-- 説明テキストスタイル -->
+    <Style Selector="TextBlock.InfoText">
+      <Setter Property="FontSize" Value="11"/>
+      <Setter Property="Foreground" Value="#666"/>
+      <Setter Property="Margin" Value="0,5,0,0"/>
+    </Style>
+  </Window.Styles>
+
+  <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+    <!-- ヘッダー -->
+    <Border Grid.Row="0" Classes="Header">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Classes="HeaderTitle" Text="部署メンテナンス"/>
+        <TextBlock Text="{Binding StatusMessage}"
+                   Foreground="Yellow"
+                   FontSize="14"
+                   Margin="30,0,0,0"
+                   VerticalAlignment="Center"
+                   IsVisible="{Binding IsLoading}"/>
+      </StackPanel>
+    </Border>
+
+    <!-- ツールバー -->
+    <Border Grid.Row="1" Classes="Toolbar">
+      <StackPanel Orientation="Horizontal">
+        <Button Classes="ToolbarButton" Content="再表示"
+                Command="{Binding RefreshCommand}"
+                IsEnabled="{Binding !IsLoading}"/>
+        <Button Classes="SaveAllButton" Content="保存"
+                Command="{Binding SaveAllChangesCommand}"
+                IsEnabled="{Binding CanSaveAll}"/>
+        <Button Classes="CloseButton" Content="閉じる"
+                Command="{Binding CloseWindowCommand}"/>
+      </StackPanel>
+    </Border>
+
+    <!-- 説明エリア -->
+    <Border Grid.Row="2" Background="#f8f9fa" BorderBrush="#dee2e6" BorderThickness="0,0,0,1" Padding="15,10">
+      <StackPanel>
+        <TextBlock Text="表示区分について:" FontWeight="Bold" FontSize="12" Margin="0,0,0,5"/>
+        <TextBlock Classes="InfoText" Text="• 1行目専用: スケジュールグループ（1行目）のみに表示される部署"/>
+        <TextBlock Classes="InfoText" Text="• 2行目専用: 部署スケジュール（2行目）のみに表示される部署"/>
+        <TextBlock Classes="InfoText" Text="• 両方: 1行目・2行目両方に表示される部署"/>
+        <TextBlock Classes="InfoText" Text="※ 変更したい項目を編集後、「保存」ボタンで保存してください" FontWeight="Bold" Foreground="#e55a2b" Margin="0,5,0,0"/>
+      </StackPanel>
+    </Border>
+
+    <!-- 部署一覧 - ItemsControl版（DataGridの代替） -->
+    <DataGrid Grid.Row="3" Margin="10"
+              ItemsSource="{Binding DepartmentMasters}"
+              AutoGenerateColumns="False"
+              CanUserResizeColumns="True"
+              GridLinesVisibility="All"
+              BorderThickness="1"
+              BorderBrush="#CCCCCC">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="70" IsReadOnly="True"/>
+        <DataGridTextColumn Header="部署ID" Binding="{Binding DepartmentId}" Width="100"/>
+        <DataGridTextColumn Header="部署名" Binding="{Binding DepartmentName}" Width="130"/>
+
+        <DataGridTemplateColumn Header="表示区分" Width="130">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate x:DataType="vm:DepartmentMasterItemViewModel">
+              <ComboBox ItemsSource="{Binding DisplayCaseOptions}"
+                        SelectedItem="{Binding SelectedDisplayCase}"
+                        HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+
+        <DataGridCheckBoxColumn Header="有効flg" Binding="{Binding IsActive}" Width="90"/>
+
+        <DataGridTextColumn Header="外部システム" Binding="{Binding ExternalSystemName}" Width="180" IsReadOnly="True"/>
+        <DataGridTextColumn Header="外部部署ID" Binding="{Binding ExternalDepartmentId}" Width="120" IsReadOnly="True"/>
+        <DataGridTextColumn Header="外部部署名" Binding="{Binding ExternalDepartmentName}" Width="150" IsReadOnly="True"/>
+        <DataGridTextColumn Header="作成日時" Binding="{Binding CreatedAtDisplay}" Width="180" IsReadOnly="True"/>
+        <DataGridTextColumn Header="更新日時" Binding="{Binding UpdatedAtDisplay}" Width="*" IsReadOnly="True"/>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <!-- ステータスバー -->
+    <Border Grid.Row="4" Background="#f8f9fa" BorderBrush="#dee2e6" BorderThickness="0,1,0,0" Padding="15,8">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="総件数: " FontSize="12"/>
+        <TextBlock Text="{Binding TotalCount}" FontSize="12" FontWeight="Bold"/>
+        <TextBlock Text="件" FontSize="12" Margin="0,0,20,0"/>
+
+        <TextBlock Text="変更件数: " FontSize="12"/>
+        <TextBlock Text="{Binding ChangedCount}" FontSize="12" FontWeight="Bold" Foreground="#ff6b35"/>
+        <TextBlock Text="件" FontSize="12" Margin="0,0,20,0"/>
+
+        <TextBlock Text="{Binding LastUpdateTime}" FontSize="12" Foreground="#666"/>
+      </StackPanel>
+    </Border>
+  </Grid>
+</Window>
