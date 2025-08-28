@@ -154,14 +154,14 @@ namespace keijibanapi.Repositories
                 const string updateSql = @"
             UPDATE message_actions SET action_status = @Status, action_comment = @Comment, action_date = NOW(), updated_at = NOW()
             WHERE action_id = @ActionId";
-                await connection.ExecuteAsync(updateSql, new { request.Status, request.Comment, ActionId = existingActionId.Value });
+                await connection.ExecuteAsync(updateSql, new { Status = request.Status.ToString(), request.Comment, ActionId = existingActionId.Value });
             }
             else
             {
                 const string insertSql = @"
             INSERT INTO message_actions (message_id, dept_id, action_status, action_comment, action_date)
             VALUES (@MessageId, @DeptId, @Status, @Comment, NOW())";
-                await connection.ExecuteAsync(insertSql, new { request.MessageId, DeptId = deptId, request.Status, request.Comment });
+                await connection.ExecuteAsync(insertSql, new { request.MessageId, DeptId = deptId, Status = request.Status.ToString(), request.Comment });
             }
         }
 
